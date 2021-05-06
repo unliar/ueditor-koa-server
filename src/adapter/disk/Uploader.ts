@@ -8,7 +8,8 @@ import { File } from "formidable";
 import { single } from "validate.js";
 import stateMap from "../../const/state-map";
 
-const DiskUploader: UploaderConstructor = class DiskUploader implements IUploader {
+const DiskUploader: UploaderConstructor = class DiskUploader
+  implements IUploader {
   /**
    * @param  ctx Koa ctx
    */
@@ -74,7 +75,7 @@ const DiskUploader: UploaderConstructor = class DiskUploader implements IUploade
       return { state: stateMap.ERROR_SIZE_EXCEED };
     }
 
-    const originName = file.name;
+    const originName = file.name ?? "";
     const fileExt = path.extname(originName);
 
     // 检查文件格式是否允许

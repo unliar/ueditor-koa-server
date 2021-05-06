@@ -76,7 +76,7 @@ const CosUploader: UploaderConstructor = class CosUploader
       return { state: stateMap.ERROR_SIZE_EXCEED };
     }
 
-    const originName = file.name;
+    const originName = file.name ?? "";
     const fileExt = path.extname(originName);
 
     // 检查文件格式是否允许
