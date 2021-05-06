@@ -7,7 +7,7 @@ import Koa from "koa";
 import { File } from "formidable";
 import { single } from "validate.js";
 import stateMap from "../../const/state-map";
-import cos from "./cos";
+import cos, { QiNiuPutFile } from "./cos";
 
 const CosUploader: UploaderConstructor = class CosUploader
   implements IUploader {
@@ -87,30 +87,16 @@ const CosUploader: UploaderConstructor = class CosUploader
     // 文件最终要保存的路径
     const filePath = this.getFilePath(pathFormat, originName);
 
-    return new Promise<Result>((resolve) => {
-      cos.putObject(
-        {
-          Bucket: "ueditor-1302968899",
-          Region: "ap-guangzhou",
-          Key: filePath,
-          Body: createReadStream(tmpFilePath),
-        },
-        (err) => {
-          if (err) {
-            resolve({ state: stateMap.ERROR_FILE_MOVE });
-          } else {
-            unlinkSync(tmpFilePath); // 删除临时文件
-            resolve({
-              state: stateMap.SUCCESS, // 上传状态，上传成功时必须返回"SUCCESS"
-              url: filePath, // 返回的地址
-              title: path.basename(filePath), // 新文件名
-              original: originName, // 原始文件名
-              type: fileExt, // 文件类型
-              size: fileSize, // 文件大小
-            });
-          }
-        }
-      );
+    return QiNiuPutFile(filePath, tmpFilePath).then((r) => {
+      unlinkSync(tmpFilePath);
+      return {
+        state: stateMap.SUCCESS, // 上传状态，上传成功时必须返回"SUCCESS"
+        url: filePath, // 返回的地址
+        title: path.basename(filePath), // 新文件名
+        original: originName, // 原始文件名
+        type: fileExt, // 文件类型
+        size: fileSize, // 文件大小
+      };
     });
   }
 

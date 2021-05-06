@@ -1,4 +1,4 @@
-const urlPrefix = "//ueditor-1302968899.cos.ap-guangzhou.myqcloud.com/";
+const urlPrefix = "http://qygdut-static.cretinzp.com/";
 
 const editorConfig: EditorConfig = {
   /* 上传图片配置项 */

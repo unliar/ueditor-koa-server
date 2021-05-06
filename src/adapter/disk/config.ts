@@ -1,4 +1,4 @@
-const urlPrefix = "//ueditor.szcloudplus.com";
+const urlPrefix = "";
 
 const editorConfig: EditorConfig = {
   /* 上传图片配置项 */
